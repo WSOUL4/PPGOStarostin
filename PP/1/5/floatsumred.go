@@ -20,7 +20,12 @@ func myIntMult(a, b float64) {
 	//return a * b
 }
 func myIntDiv(a, b float64) {
+	if b==0{
+		fmt.Println("Алло\n")
+	}else{
 	fmt.Printf("Рез. дел.=%f\n", a/b)
+}
+	//return a / b
 
 	//return a / b
 }
