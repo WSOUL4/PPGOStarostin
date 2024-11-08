@@ -1,0 +1,328 @@
+.tasksContainer{
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis: content;
+    border-top: 5px solid #FFE700;
+    border-bottom: 5px solid #FFE700;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #ffe600a0;
+    gap: 10px;
+}
+.taskInstance{
+    display: flex;
+    flex-direction: column;
+    border: 3px solid #000000;
+    border-radius: 5px;
+    min-width: 50px;
+    min-height: 50px;
+    padding: 5px;
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.taskInside{
+    text-align: justify;
+    border-spacing: 5px;
+    font-stretch: condensed;
+}
+.taskInside th{
+    text-align: center;
+    border: 3px solid #000000;
+}
+.taskInside td{
+    text-align: center;
+    border: 3px solid #000000;
+}
+.taskInB{
+    
+}
+.taskChange{
+  
+}
+.taskDelete{
+ 
+}
+.taskNumP{
+    text-shadow: #000000;
+}
+.taskAddWorker{
+ 
+}
+.taskPath{
+    
+}
+.loginDiv{
+  margin: auto;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-basis: content;
+  border-top: 5px solid #FFE700;
+  border-bottom: 5px solid #FFE700;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #ffe600a0;
+  gap: 10px;
+}
+.loginForm{
+  display: flex;
+            flex-direction: column; /* располагаем элементы вертикально */
+            justify-content: center; /* центрируем по вертикали */
+            align-items: center;     /* центрируем по горизонтали */
+            height: 100%;          /* высота на весь экран */
+  
+}
+.loginBtn{
+
+}
+#Warn{
+  text-align: center;
+  color: red;
+}
+#rWarn{
+  text-align: center;
+  color: red;
+}
+#crWarn{
+  text-align: center;
+  color: red;
+}
+#addWWarn{
+  text-align: center;
+  color: red;
+}
+.link {
+    stroke: url(#blackred);
+    stroke-width: 2;
+    z-index: 3;
+}
+
+.dialogTask{
+    position: fixed;
+    padding: 2px;
+    border: 3px solid #000000;
+    border-radius: 5px;
+    background-color: aliceblue;
+    z-index: 4;
+}
+svg { 
+  
+  background-color: rgba(255, 255, 255, 0.50);
+  backdrop-filter: blur(5px);
+    display: block;
+    position: fixed;
+    left: 50%;
+transform: translateX(-50%);
+    top: 10%;
+    bottom: 10%;
+    z-index: 3;
+    border: 3px solid #000000;
+    border-radius: 5px;
+  
+     }
+
+
+
+.DialogT {
+  display: none;
+  position: fixed;
+  flex-direction: column;
+  width: 50%;
+  height: auto;
+  background-color: rgba(255, 255, 255, 0.50);
+  backdrop-filter: blur(5px);
+  z-index: 7;
+  top: 10%;
+  left: 0%;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #000000;
+    border-radius: 5px;
+
+}
+.TableRep{
+  text-align: center;
+}
+
+
+
+table.greyGridTable {
+  border: 2px solid #000000;
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+table.greyGridTable td, table.greyGridTable th {
+  border: 1px solid #000000;
+  padding: 3px 4px;
+}
+table.greyGridTable tbody td {
+  font-size: 13px;
+}
+table.greyGridTable td:nth-child(even) {
+  background: #EBEBEB;
+}
+table.greyGridTable thead {
+  background: #FFFFFF;
+  border-bottom: 4px solid #333333;
+}
+table.greyGridTable thead th {
+  font-size: 15px;
+  font-weight: bold;
+  color: #333333;
+  text-align: center;
+  border-left: 2px solid #333333;
+}
+table.greyGridTable thead th:first-child {
+  border-left: none;
+}
+
+table.greyGridTable tfoot {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333333;
+  border-top: 4px solid #333333;
+}
+table.greyGridTable tfoot td {
+  font-size: 14px;
+}
+/*
+    g{
+      transform: translate(400,400);
+    }
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+* {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  
+  border: 0 none;
+    
+  -webkit-transition: all ease .4s;
+  -moz-transition: all ease .4s;
+    transition: all ease .4s;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+    
+  background: RGBA(0, 58, 97, 1);
+    
+  font-family: 'Fjalla One', sans-serif;
+  font-size: 18px;
+}
+
+h1 {
+  padding-top: 40px;
+    
+  color: #ccc;
+  text-align: center;
+  font-size: 1.8rem;
+     
+    text-shadow: rgba(0,0,0,0.6) 1px 0, rgba(0,0,0,0.6) 1px 0, rgba(0,0,0,0.6) 0 1px, rgba(0,0,0,0.6) 0 1px;
+}
+
+.nav {
+  margin: 20px auto;
+  width: 455px;
+  min-height: auto;
+}
+
+.nav ul {
+  position: relative;
+  padding-top: 20px; 
+}
+
+.nav li {
+  position: relative;
+  padding: 20px 3px 0 3px; 
+  float: left; 
+  
+  text-align: center;
+  list-style-type: none; 
+}
+
+.nav li::before, .nav li::after{
+  content: '';
+  position: absolute; 
+  top: 0; 
+  right: 50%;
+  width: 50%; 
+  height: 20px;
+  border-top: 1px solid #ccc;
+}
+
+.nav li::after{
+  left: 50%;
+  right: auto; 
+  
+  border-left: 1px solid #ccc;
+}
+
+.nav li:only-child::after, .nav li:only-child::before {
+  content: '';
+  display: none;
+}
+
+.nav li:only-child{ padding-top: 0;}
+.nav li:first-child::before, .nav li:last-child::after{
+  border: 0 none;
+}
+
+.nav li:last-child::before{
+  border-right: 1px solid #ccc;
+  border-radius: 0 5px 0 0;
+}
+
+.nav li:first-child::after{
+    border-radius: 5px 0 0 0;
+}
+.nav ul ul::before{
+  content: '';
+  position: absolute; top: 0; left: 50%;
+  border-left: 1px solid #ccc;
+  width: 0; 
+  height: 20px;
+}
+
+.nav li a{
+  display: inline-block;
+  padding: 5px 10px;
+  
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #ccc;
+  font-family: arial, verdana, tahoma;
+  font-size: 11px;
+}
+
+.nav li a:hover, .nav li a:hover+ul li a {
+  color: #000;
+  background: #c8e4f8;   
+  border: 1px solid #94a0b4;
+}
+
+.nav li a:hover+ul li::after, 
+.nav li a:hover+ul li::before, 
+.nav li a:hover+ul::before, 
+.nav li a:hover+ul ul::before{
+  content: '';
+  border-color: #94a0b4;
+}*/

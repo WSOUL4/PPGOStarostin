@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="stylesPP.css">
+    <title>Трекинг времени и задач</title>
+    <script src="./formjs.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<button id="all" onclick="selectToFill()" style="display: none;">Показать все задачи</button>
+<button id="add" onclick="selectByParentIdToFill()">Открыть корень задач</button>
+<button id="tree" onclick="selectTree()">Навигация задач</button>
+<button id="entertask" onclick="enterTask()">Создать задачу</button>
+<button id="Reports" onclick="showReportsMenu()">Отчёты</button>
+<button id="back" onclick="selectBack()">Вернуться</button>
+<button id="logout" onclick="logout()">Выйти</button>
+<button id="child" style="display: none;" onclick="selectChildrenTree()">Найти дочерние задачи</button>
+<button id="parent" style="display: none;" onclick="selectParentTree()">Найти родительсике радачи</button>
+
+<p id="path" style="display: none;"> </p>
+
+
+<dialog id="crDialog" class="DialogT">
+  
+  <button id="closetaskcr" onclick="closetaskcr()">Закрыть</button>
+  <p id="crWarn"></p>
+  <form class="loginForm" id="crForm">
+    <p>Дата начала</p>
+    <input type="date" id="crdn">
+    <p>Дата конца</p>
+    <input type="date" id="crde">
+    <p>Номер родительской задачи</p>
+    <input type="number" id="crparent">
+    <p>Текст задачи</p>
+    <input type="text" id="crt">
+    <p>Отметки</p>
+    <input type="text" id="crm">
+    <p>Статус</p>
+    <input type="text" id="crs">
+    <p></p>
+    <button type="submit" id="crsubmit">Отправить</button>
+  </form>
+
+</dialog>
+
+
+<dialog id="chDialog" class="DialogT">
+  
+  <button id="closetaskch" onclick="closetaskch()">Закрыть</button>
+  <p id="chWarn"></p>
+  <form class="loginForm" id="chForm">
+    <p>ID</p>
+    <p id="chId"></p>
+    <p>Дата начала</p>
+    <input type="date" id="chdn">
+    <p>Дата конца</p>
+    <input type="date" id="chde">
+    <p>Номер родительской задачи</p>
+    <input type="number" id="chparent">
+    <p>Текст задачи</p>
+    <input type="text" id="cht">
+    <p>Отметки</p>
+    <input type="text" id="chm">
+    <p>Статус</p>
+    <input type="text" id="chs">
+    <p></p>
+    <button type="submit" id="chsubmit">Отправить</button>
+  </form>
+
+</dialog>
+
+<dialog id="addWDialog" class="DialogT">
+  
+  <button id="closetaskaddW" onclick="closetaskaddW()">Закрыть</button>
+  <p id="addWWarn"></p>
+  <form class="loginForm " id="addWForm">
+    <p>ID</p>
+    <p id="addWId"></p>
+    <p>Введите логин, кого нужно добавить</p>
+    <input type="text" id="addWt">
+    <p></p>
+    <button type="submit" id="chsubmit">Отправить</button>
+  </form>
+
+</dialog>
+
+
+<dialog id="ReportsDialog" class="DialogT">
+  
+  <button id="closerepots" onclick="closerepots()" style="align-self: baseline;">Закрыть</button>
+  <p style="text-align: center;">Число дней</p>
+  <input type="number" id="RepDays">
+  <p></p>
+  <button id="DaysLeft" onclick="DaysLeft()">Найти задачи по остатку дней</button>
+  <p></p>
+  <button id="DoneFor" onclick="DoneFor()">Найти задачи выполненные за послдний период</button>
+  <p></p>
+  <table id="RepDialTable" class="greyGridTable">
+
+  </table>
+</dialog>
+
+
+
+<div class="tasksContainer" id="tasksContainer">
+    
+
+</div>
+<div class = "dialogTask" id="dialogTask" onmouseover="show(this)" onmouseout="hide(this)" style="display: none;">ы</div>
+<svg width="800" height="500" viewBox="0 0 800 500" id="nav" style="display: none;">
+    <defs>
+    <linearGradient id="blackred">
+      <stop offset="0%" stop-color="black" />
+      <stop offset="100%" stop-color="black" />
+    </linearGradient>
+  </defs></svg>
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+    document.getElementById('addWForm').addEventListener('submit', function(event) {
+      //console.log('Форма отправляется');
+      event.preventDefault(); // предотвратить стандартное поведение формы (перезагрузку страницы)
+      var addWid=document.getElementById("addWId").innerHTML;
+      var addWt=document.getElementById("addWt").value;
+      addWid=Number(addWid);
+      var url = "http://localhost:8080/task/addWorker";
+      
+  if (addWt===""){// NO LOGIN
+    document.getElementById("addWWarn").innerHTML="Поле логина пустое"
+}else{
+      var data = {idTask: addWid, login: addWt };}
+      
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token.tokenStr,
+        },
+        body: JSON.stringify(data),
+        
+      })
+      .then(response => response.json())
+      .then(data => {console.log(data);hide(document.getElementById("addWDialog"));})
+      .catch(error => {console.error(error);addWarn()});
+  
+  });
+
+    document.getElementById('crForm').addEventListener('submit', function(event) {
+      //console.log('Форма отправляется');
+      event.preventDefault(); // предотвратить стандартное поведение формы (перезагрузку страницы)
+  
+      var dateB = document.getElementById("crdn").value;
+      var dateE = document.getElementById("crde").value;
+      var Parent = document.getElementById("crparent").value;
+      var Task = document.getElementById("crt").value;
+      var Marks = document.getElementById("crm").value;
+      var Status = document.getElementById("crs").value;
+      var url = "http://localhost:8080/createTask";
+      if ((dateE==="") || (Task==="") || (dateB==="")){
+        addWarn();
+      return;}
+  if (Parent===""){var data = { dateBeg: dateB, dateEnd: dateE, parentId: 0, task: Task, mark: Marks, status: Status};}else{
+      var data = { dateBeg: dateB, dateEnd: dateE, parentId: Number(Parent), task: Task, mark: Marks, status: Status};}
+      
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token.tokenStr,
+        },
+        body: JSON.stringify(data),
+        
+      })
+      .then(response => response.json())
+      .then(data => {console.log(data);regAnsw(data)})
+      .catch(error => {console.error(error);addWarn()});
+  
+  });
+
+
+
+  document.getElementById('chForm').addEventListener('submit', function(event) {
+    //console.log('Форма отправляется');
+    event.preventDefault(); // предотвратить стандартное поведение формы (перезагрузку страницы)
+    var chid=document.getElementById("chId").innerHTML;
+    chid=Number(chid);
+    var dateB = document.getElementById("chdn").value;
+    var dateE = document.getElementById("chde").value;
+    var Parent = document.getElementById("chparent").value;
+    var Task = document.getElementById("cht").value;
+    var Marks = document.getElementById("chm").value;
+    var Status = document.getElementById("chs").value;
+    var url = "http://localhost:8080/changeTask";
+    if ((dateE==="") || (Task==="") || (dateB==="")){
+      addWarn();
+    return;}
+if (Parent===""){var data = {id: chid, dateBeg: dateB, dateEnd: dateE, parentId: 0, task: Task, mark: Marks, status: Status};}else{
+    var data = {id: chid, dateBeg: dateB, dateEnd: dateE, parentId: Number(Parent), task: Task, mark: Marks, status: Status};}
+    
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token.tokenStr,
+      },
+      body: JSON.stringify(data),
+      
+    })
+    .then(response => response.json())
+    .then(data => {console.log(data);regAnsw(data)})
+    .catch(error => {console.error(error);addWarn()});
+
+});
+  
+  
+  function regAnsw(data){
+    if (data.text==="OK"){
+      selectcInside(globalCurrentTask);
+      //location.reload();
+    } else if (data.text==="HAS") {
+      document.getElementById("crWarn").innerHTML="Уже есть такой пользователь";
+    } else{document.getElementById("crWarn").innerHTML="Ошибка";}
+    
+    
+  }
+  
+  function addWarn(){
+  document.getElementById("crWarn").innerHTML="Проверьте введённые данные";
+  document.getElementById("chWarn").innerHTML="Проверьте введённые данные";
+  }
+  </script>
+
+
+
+</body>
+</html>

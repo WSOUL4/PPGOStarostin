@@ -1,0 +1,241 @@
+CREATE TABLE public."Tasks"
+(
+    id serial,
+    "dateBeg" date DEFAULT CURRENT_DATE,
+    "dateEnd" date,
+    "parentId" integer,
+    task character varying NOT NULL,
+    "inChargeId" integer,
+    PRIMARY KEY (task, id, "dateBeg", "dateEnd")
+);
+
+ALTER TABLE IF EXISTS public."Tasks"
+    OWNER to postgres;
+
+COMMENT ON TABLE public."Tasks"
+    IS 'Представляет объект задачи, которая будет в разрезе времени';
+
+
+1234567890
++79297049842
+12
+
+
+CREATE TABLE public."Workers"
+(
+    id serial,
+    fio character varying,
+    phone character varying(12) DEFAULT +7,
+    address character varying,
+    email character varying,
+    login character varying,
+    password character varying,
+    PRIMARY KEY (id, fio, login)
+);
+
+ALTER TABLE IF EXISTS public."Workers"
+    OWNER to postgres;
+
+
+
+ALTER TABLE IF EXISTS public."Tasks"
+    ADD CONSTRAINT "workerId" FOREIGN KEY ("inChargeId")
+    REFERENCES public."Workers" (id) MATCH SIMPLE
+    ON UPDATE CASCADE
+    ON DELETE SET NULL
+    NOT VALID;
+
+UPDATE public."Tasks"
+	SET  "inChargeId"=ARRAY[1,2]
+	WHERE id=2;
+
+
+
+
+SELECT t.task,w.fio
+from "Distribution" as d, "Tasks" as t, "Workers" as w
+where d."idTask"=t."id" and d."idWorker"=w."id"
+
+ссылки в двойных скобках , кринге
+
+
+SELECT t."task",t."id",t."parentId", w."fio"
+from "Distribution" as d, "Tasks" as t, "Workers" as w
+where d."idTask"=t."id" and d."idWorker"=w."id"
+
+
+
+
+
+COMMENT ON TABLE public."Workers"
+    IS 'Таблица является списком рабочих, что будут использоваться как ответственные за выполнение задачи';
+
+
+
+BEGIN
+ INSERT INTO
+ public."DoneTasks"("dateBeg","dateEnd","parentId","task","mark","status","dateEndReal")
+ VALUES
+ (NEW."dateBeg",NEW."dateEnd",NEW."parentId",NEW."task",NEW."mark",NEW."status", now());
+ RETURN NEW;
+ END;
+
+
+
+BEGIN
+ IF (OLD."status" <> NEW."status") and (NEW."status"='done') THEN
+ INSERT INTO
+ public."DoneTasks"("dateBeg","dateEnd","parentId","task","mark","status","dateEndReal")
+ VALUES
+ (NEW."dateBeg",NEW."dateEnd",NEW."parentId",NEW."task",NEW."mark",NEW."status", now());
+ END IF;
+ RETURN NEW;
+ END;
+
+
+
+
+SELECT distinct d."idWorker", w."login"
+	FROM public."Distribution" as d,  public."Workers" as w
+	WHERE d."idWorker" = w.id and d."idWorker"=1 and d."idTask"=1
+
+
+
+
+
+SELECT count(id)
+	FROM public."Workers" as p
+	where (p.email='User1' and p.password='User1') or (p.login='User1' and p.password='User1');
+
+
+
+
+
+
+
+select t.id
+from public."Tasks" as t, public."Distribution" as d,public."Workers" as w
+where t.id= d."idTask" and d."idWorker"=w.id and w.login='Admin';
+
+
+
+
+
+select distinct t.id
+from public."Tasks" as t, public."Distribution" as d,public."Workers" as w
+where (t.id= d."idTask" and d."idWorker"=w.id and w.login='Admin') or t.id=0;
+
+
+
+
+WITH BYAUTH AS ( select distinct t.id
+from public."Tasks" as t, public."Distribution" as d,public."Workers" as w
+where (t.id= d."idTask" and d."idWorker"=w.id and w.login='Admin') or t.id=0)
+select * from BYAUTH
+
+
+
+
+РЕКУРСИЯ С АВТОРОМ
+with recursive whosYourChildren("parentId", id,depth) as (
+
+  --start with the "anchor" row
+  select
+    "parentId", id,0
+  from public."Tasks" as t
+  where
+    id = 0 --parameterize me
+
+  union all
+
+  select
+    t."parentId", t.id, whosYourChildren.depth + 1
+  from public."Tasks" as t
+  join whosYourChildren on whosYourChildren.id = t."parentId"
+),
+
+ allt("parentId", id,depth, "status") AS ( 
+ select whosYourChildren."parentId",whosYourChildren.id,whosYourChildren.depth,t.status
+from whosYourChildren, public."Tasks" as t
+where whosYourChildren."parentId" is not null and depth>0 and t.id=whosYourChildren.id
+order by
+  whosYourChildren.depth
+  )
+  ,BYAUTH AS ( select distinct t.id
+from public."Tasks" as t, public."Distribution" as d,public."Workers" as w
+where (t.id= d."idTask" and d."idWorker"=w.id and w.login='Admin') or t.id=0)
+
+
+select * from allt where allt.id in (select * from BYAUTH)
+
+
+
+БЕЗ
+
+
+with recursive whosYourChildren("parentId", id,depth) as (
+
+  --start with the "anchor" row
+  select
+    "parentId", id,0
+  from public."Tasks" as t
+  where
+    id = 0 --parameterize me
+
+  union all
+
+  select
+    t."parentId", t.id, whosYourChildren.depth + 1
+  from public."Tasks" as t
+  join whosYourChildren on whosYourChildren.id = t."parentId"
+)
+
+select 
+  whosYourChildren."parentId",whosYourChildren.id,whosYourChildren.depth,t.status
+from whosYourChildren, public."Tasks" as t
+where whosYourChildren."parentId" is not null and depth>0 and t.id=whosYourChildren.id
+order by
+  whosYourChildren.depth;
+
+
+
+
+
+
+
+
+WITH LeftD as (SELECT id,  task, mark, status, "dateEnd"-"dateBeg" as daysHad, "dateEnd"-CURRENT_DATE as daysLeft
+	FROM public."Tasks")
+
+	select * from LeftD where daysLeft<=$1 and status not like 'done'
+
+
+
+
+
+СКОЛЬКО ЗАДАЧ ОСТАЛОСЬ НА ЭТОМ ПРОМЕЖУТКЕ
+
+WITH LeftD as (SELECT id,  task, mark, status, "dateEnd"-"dateBeg" as daysHad, "dateEnd"-CURRENT_DATE as daysLeft
+	FROM public."Tasks"),usr as(select id from public."Workers" where "login"=$1),
+	his as(select "idTask" from public."Distribution" where "idWorker"= (select * from usr))
+
+	select * from LeftD where daysLeft<=$2 and status not like 'done' and id in (select * from his)
+
+
+
+СДЕЛАНО ЗА ПРОМЕЖУТОК
+WITH LeftD as (SELECT id,  task, mark, status, CURRENT_DATE-"dateEnd" as daysPassed
+	FROM public."Tasks"),usr as(select id from public."Workers" where "login"=$1),
+	his as(select "idTask" from public."Distribution" where "idWorker"= (select * from usr))
+
+	select distinct * from LeftD where daysPassed between 0 and $2 and status like 'done' and id in (select * from his)
+
+
+	
+
+
+WITH usr as(select id from public."Workers" where "login"=$1)
+
+INSERT INTO public."Distribution"(
+	"idTask", "idWorker")
+	VALUES ($2, (select * from usr));

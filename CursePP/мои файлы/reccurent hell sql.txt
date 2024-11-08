@@ -1,0 +1,82 @@
+
+with recursive whosYourDaddy("parentId", id,depth) as (
+
+  --start with the "anchor" row
+  select
+    "parentId", id,1
+  from public."Tasks" as t
+  where
+    id = 3 --parameterize me
+
+  union all
+
+  select
+    t."parentId", t.id, whosYourDaddy.depth + 1
+  from public."Tasks" as t
+  join whosYourDaddy on whosYourDaddy."parentId" = t.id
+)
+
+select
+  *
+from whosYourDaddy
+where "parentId" is not null
+order by
+  whosYourDaddy.depth;
+
+
+with recursive whosYourChildren("parentId", id,depth) as (
+
+  --start with the "anchor" row
+  select
+    "parentId", id,0
+  from public."Tasks" as t
+  where
+    id = 1 --parameterize me
+
+  union all
+
+  select
+    t."parentId", t.id, whosYourChildren.depth + 1
+  from public."Tasks" as t
+  join whosYourChildren on whosYourChildren.id = t."parentId"
+)
+
+select 
+  *
+from whosYourChildren
+where "parentId" is not null and depth>0
+order by
+  whosYourChildren.depth;
+
+
+
+
+
+
+
+
+!!! ALL ROWS WITH DEPTH
+
+with recursive whosYourChildren("parentId", id,depth) as (
+
+  --start with the "anchor" row
+  select
+    "parentId", id,0
+  from public."Tasks" as t
+  where
+    id = 0 --parameterize me
+
+  union all
+
+  select
+    t."parentId", t.id, whosYourChildren.depth + 1
+  from public."Tasks" as t
+  join whosYourChildren on whosYourChildren.id = t."parentId"
+)
+
+select 
+  *
+from whosYourChildren
+where "parentId" is not null and depth>0
+order by
+  whosYourChildren.depth;

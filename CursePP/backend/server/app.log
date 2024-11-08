@@ -1,0 +1,92 @@
+2024/11/02 15:46:18 http: panic serving [::1]:55569: NOT JSON
+goroutine 34 [running]:
+net/http.(*conn).serve.func1()
+	C:/Program Files/Go/src/net/http/server.go:1947 +0xbe
+panic({0x9e35a0?, 0xad58d0?})
+	C:/Program Files/Go/src/runtime/panic.go:785 +0x132
+main.selectAll({0xad9990, 0xc0000be000}, 0xc0000b4000)
+	C:/Users/000/Desktop/CursePP/backend/server/server.go:214 +0x68a
+net/http.HandlerFunc.ServeHTTP(0xc000184000?, {0xad9990?, 0xc0000be000?}, 0x951196?)
+	C:/Program Files/Go/src/net/http/server.go:2220 +0x29
+net/http.(*ServeMux).ServeHTTP(0x7650b9?, {0xad9990, 0xc0000be000}, 0xc0000b4000)
+	C:/Program Files/Go/src/net/http/server.go:2747 +0x1ca
+net/http.serverHandler.ServeHTTP({0xc0000aa090?}, {0xad9990?, 0xc0000be000?}, 0x6?)
+	C:/Program Files/Go/src/net/http/server.go:3210 +0x8e
+net/http.(*conn).serve(0xc0000ae000, {0xada148, 0xc00019a240})
+	C:/Program Files/Go/src/net/http/server.go:2092 +0x5d0
+created by net/http.(*Server).Serve in goroutine 1
+	C:/Program Files/Go/src/net/http/server.go:3360 +0x485
+2024/11/02 15:46:23 http: panic serving [::1]:55574: NOT JSON
+goroutine 37 [running]:
+net/http.(*conn).serve.func1()
+	C:/Program Files/Go/src/net/http/server.go:1947 +0xbe
+panic({0x9e35a0?, 0xad58d0?})
+	C:/Program Files/Go/src/runtime/panic.go:785 +0x132
+main.selectAll({0xad9990, 0xc0000be0e0}, 0xc0000b4140)
+	C:/Users/000/Desktop/CursePP/backend/server/server.go:214 +0x68a
+net/http.HandlerFunc.ServeHTTP(0xc000184000?, {0xad9990?, 0xc0000be0e0?}, 0x951196?)
+	C:/Program Files/Go/src/net/http/server.go:2220 +0x29
+net/http.(*ServeMux).ServeHTTP(0x7650b9?, {0xad9990, 0xc0000be0e0}, 0xc0000b4140)
+	C:/Program Files/Go/src/net/http/server.go:2747 +0x1ca
+net/http.serverHandler.ServeHTTP({0xc0000aa240?}, {0xad9990?, 0xc0000be0e0?}, 0x6?)
+	C:/Program Files/Go/src/net/http/server.go:3210 +0x8e
+net/http.(*conn).serve(0xc0000ae1b0, {0xada148, 0xc00019a240})
+	C:/Program Files/Go/src/net/http/server.go:2092 +0x5d0
+created by net/http.(*Server).Serve in goroutine 1
+	C:/Program Files/Go/src/net/http/server.go:3360 +0x485
+2024/11/02 15:46:29 http: panic serving [::1]:55580: NOT JSON
+goroutine 7 [running]:
+net/http.(*conn).serve.func1()
+	C:/Program Files/Go/src/net/http/server.go:1947 +0xbe
+panic({0x9e35a0?, 0xad58d0?})
+	C:/Program Files/Go/src/runtime/panic.go:785 +0x132
+main.selectAll({0xad9990, 0xc0001240e0}, 0xc00006a3c0)
+	C:/Users/000/Desktop/CursePP/backend/server/server.go:214 +0x68a
+net/http.HandlerFunc.ServeHTTP(0xc000184000?, {0xad9990?, 0xc0001240e0?}, 0x951196?)
+	C:/Program Files/Go/src/net/http/server.go:2220 +0x29
+net/http.(*ServeMux).ServeHTTP(0x7650b9?, {0xad9990, 0xc0001240e0}, 0xc00006a3c0)
+	C:/Program Files/Go/src/net/http/server.go:2747 +0x1ca
+net/http.serverHandler.ServeHTTP({0xc00001cf60?}, {0xad9990?, 0xc0001240e0?}, 0x6?)
+	C:/Program Files/Go/src/net/http/server.go:3210 +0x8e
+net/http.(*conn).serve(0xc000140090, {0xada148, 0xc00019a240})
+	C:/Program Files/Go/src/net/http/server.go:2092 +0x5d0
+created by net/http.(*Server).Serve in goroutine 1
+	C:/Program Files/Go/src/net/http/server.go:3360 +0x485
+2024/11/02 15:51:04 http: panic serving [::1]:55891: NOT JSON
+goroutine 40 [running]:
+net/http.(*conn).serve.func1()
+	C:/Program Files/Go/src/net/http/server.go:1947 +0xbe
+panic({0x9e35a0?, 0xad58d0?})
+	C:/Program Files/Go/src/runtime/panic.go:785 +0x132
+main.selectAll({0xad9990, 0xc0001241c0}, 0xc00006a500)
+	C:/Users/000/Desktop/CursePP/backend/server/server.go:214 +0x68a
+net/http.HandlerFunc.ServeHTTP(0xc000184000?, {0xad9990?, 0xc0001241c0?}, 0x951196?)
+	C:/Program Files/Go/src/net/http/server.go:2220 +0x29
+net/http.(*ServeMux).ServeHTTP(0x7650b9?, {0xad9990, 0xc0001241c0}, 0xc00006a500)
+	C:/Program Files/Go/src/net/http/server.go:2747 +0x1ca
+net/http.serverHandler.ServeHTTP({0xc00001d0b0?}, {0xad9990?, 0xc0001241c0?}, 0x6?)
+	C:/Program Files/Go/src/net/http/server.go:3210 +0x8e
+net/http.(*conn).serve(0xc0000ae360, {0xada148, 0xc00019a240})
+	C:/Program Files/Go/src/net/http/server.go:2092 +0x5d0
+created by net/http.(*Server).Serve in goroutine 1
+	C:/Program Files/Go/src/net/http/server.go:3360 +0x485
+2024/11/02 15:52:06 http: panic serving [::1]:55994: NOT JSON
+goroutine 12 [running]:
+net/http.(*conn).serve.func1()
+	C:/Program Files/Go/src/net/http/server.go:1947 +0xbe
+panic({0x9e35a0?, 0xad58d0?})
+	C:/Program Files/Go/src/runtime/panic.go:785 +0x132
+main.selectAll({0xad9990, 0xc0001242a0}, 0xc00006a640)
+	C:/Users/000/Desktop/CursePP/backend/server/server.go:214 +0x68a
+net/http.HandlerFunc.ServeHTTP(0xc000184000?, {0xad9990?, 0xc0001242a0?}, 0x951196?)
+	C:/Program Files/Go/src/net/http/server.go:2220 +0x29
+net/http.(*ServeMux).ServeHTTP(0x7650b9?, {0xad9990, 0xc0001242a0}, 0xc00006a640)
+	C:/Program Files/Go/src/net/http/server.go:2747 +0x1ca
+net/http.serverHandler.ServeHTTP({0xc00001d230?}, {0xad9990?, 0xc0001242a0?}, 0x6?)
+	C:/Program Files/Go/src/net/http/server.go:3210 +0x8e
+net/http.(*conn).serve(0xc000140360, {0xada148, 0xc00019a240})
+	C:/Program Files/Go/src/net/http/server.go:2092 +0x5d0
+created by net/http.(*Server).Serve in goroutine 1
+	C:/Program Files/Go/src/net/http/server.go:3360 +0x485
+2024/11/05 17:28:11 can not find token in header
+2024/11/05 17:30:02 can not find token in header
